@@ -1,9 +1,9 @@
 #!/bin/sh
 
 # path:       ~/projects/shell/raspberrypi/stability.sh
-# user:       klassiker [mrdotx]
+# author:     klassiker [mrdotx]
 # github:     https://github.com/mrdotx/shell
-# date:       2020-01-22T23:44:30+0100
+# date:       2020-02-03T13:23:57+0100
 
 vcgencmd="/opt/vc/bin/vcgencmd"
 cores=$(($(nproc --all) - 1))
