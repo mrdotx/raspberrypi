@@ -3,7 +3,7 @@
 # path:       ~/projects/shell/raspberrypi/sys_stat.sh
 # author:     klassiker [mrdotx]
 # github:     https://github.com/mrdotx/raspberrypi
-# date:       2020-02-18T18:34:23+0100
+# date:       2020-02-18T19:22:33+0100
 
 script=$(basename "$0")
 help="$script [-h/--help] -- script to show system status
@@ -34,7 +34,7 @@ if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
 fi
 
 if [ $# -eq 0 ]; then
-    option=hdscmtfp
+    option=hdspmtfce
 else
     option=$1
 fi
