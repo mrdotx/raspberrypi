@@ -3,7 +3,7 @@
 # path:       ~/projects/shell/raspberrypi/sys_stat.sh
 # author:     klassiker [mrdotx]
 # github:     https://github.com/mrdotx/shell
-# date:       2020-02-17T12:18:45+0100
+# date:       2020-02-18T09:14:33+0100
 
 # start time
 start=$(date +%s.%N)
@@ -87,8 +87,6 @@ service "nginx"; ports "80"
 echo "nginx             $status    80    $port    $runtime"
 ports "443"
 echo "                          443   $port"
-service "rpimonitord"; ports "8888"
-echo "rpimonitor        $status    8888  $port    $runtime"
 echo
 
 # timers
