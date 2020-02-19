@@ -1,0 +1,9 @@
+[Unit]
+Description=adlist directory download from firebog.net
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/curl -sS -o /etc/pihole/adlists.list "https://v.firebog.net/hosts/lists.php?type=tick"
+
+[Install]
+WantedBy=multi-user.target
