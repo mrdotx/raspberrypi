@@ -2,8 +2,8 @@
 Description=weekly adlist directory download from firebog.net
 
 [Timer]
-OnCalendar=Sun 23:45
-AccuracySec=5m
+OnCalendar=weekly
+AccuracySec=3h
 Persistent=true
 Unit=pi-hole-adlist.service
 

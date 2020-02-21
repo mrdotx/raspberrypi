@@ -1,5 +1,6 @@
 [Unit]
 Description=adlist directory download from firebog.net
+Before=pi-hole-gravity.service
 
 [Service]
 Type=oneshot
