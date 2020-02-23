@@ -3,7 +3,7 @@
 # path:       ~/projects/shell/raspberrypi/sys_stat.sh
 # author:     klassiker [mrdotx]
 # github:     https://github.com/mrdotx/raspberrypi
-# date:       2020-02-23T14:25:13+0100
+# date:       2020-02-23T15:36:17+0100
 
 script=$(basename "$0")
 help="$script [-h/--help] -- script to show system status
@@ -51,23 +51,21 @@ start_time() {
     start=$(date +%s.%N)
 }
 
+line() {
+    printf "%s\n" "================================================================================"
+}
+
 header() {
-    printf "################################################################################\n"
     printf "[%s] - %s\n" "$(hostname)" "$(date +"%c")"
-    printf "################################################################################\n\n"
 }
 
 distribution() {
-    printf "[Distribution]\n"
-    printf "%s\n" "--------------------------------------------------------------------------------"
     printf "name:         %s\n" "$(awk -F '"' '/PRETTY_NAME/{print $2}' /etc/os-release)"
     printf "kernel:       %s\n" "$(uname -msr)"
     printf "firmware:     #%s\n\n" "$(awk -F '#' '{print $2}' /proc/version)"
 }
 
 system() {
-    printf "[System]\n"
-    printf "%s\n" "--------------------------------------------------------------------------------"
     printf "uptime:       %s\n" "$(uptime --pretty)"
     printf "ethernet:     sent: %fGB received: %fGB\n" \
         "$(awk '{print $1/1024/1024/1024}' /sys/class/net/eth0/statistics/tx_bytes)" \
@@ -84,14 +82,10 @@ system() {
 }
 
 processes() {
-    printf "[Top %d Processes]\n" "$1"
-    printf "%s\n" "--------------------------------------------------------------------------------"
     printf "%s\n\n" "$(ps -e -o pid,etimes,time,comm --sort -time | sed "$(($1+1))q")"
 }
 
 services() {
-    printf "[Services]\n"
-    printf "%s\n" "--------------------------------------------------------------------------------"
     service() {
         if [ "$(systemctl is-active "$1")" = "active" ]; then
             status="up  "
@@ -126,56 +120,68 @@ services() {
 }
 
 timers() {
-    printf "[Timers]\n"
-    printf "%s\n" "--------------------------------------------------------------------------------"
     printf "%s\n\n" "$(systemctl list-timers --all | fold)"
 }
 
 failures() {
-    printf "[Failures]\n"
-    printf "%s\n" "--------------------------------------------------------------------------------"
     printf "%s\n\n" "$(systemctl --failed | fold && journalctl -p 3 -xb | fold)"
 }
 
 updates() {
-    printf "[Packages]\n"
-    printf "%s\n" "--------------------------------------------------------------------------------"
     printf "%s\n\n" "$(checkupdates)"
 }
 
 end_time() {
-    printf "################################################################################\n"
     printf "Script Execution Time: %s\n" "$(date -u -d "0 $(date +%s.%N) sec - $start sec" +"%H:%M:%S.%3N")"
-    printf "################################################################################\n"
 }
 
 if [ -z "${option##*e*}" ]; then
     start_time
 fi
 if [ -z "${option##*n*}" ]; then
+    line
     header
+    line
+    printf "\n"
 fi
 if [ -z "${option##*d*}" ]; then
+    printf "[Distribution]\n"
+    line
     distribution
 fi
 if [ -z "${option##*s*}" ]; then
+    printf "[System]\n"
+    line
     system
 fi
 if [ -z "${option##*p*}" ]; then
-    processes 5
+    top=5
+    printf "[Top %d Processes]\n" "$top"
+    line
+    processes $top
 fi
 if [ -z "${option##*m*}" ]; then
+    printf "[Services]\n"
+    line
     services
 fi
 if [ -z "${option##*t*}" ]; then
+    printf "[Timers]\n"
+    line
     timers
 fi
 if [ -z "${option##*f*}" ]; then
+    printf "[Failures]\n"
+    line
     failures
 fi
 if [ -z "${option##*c*}" ]; then
+    printf "[Packages]\n"
+    line
     updates
 fi
 if [ -z "${option##*e*}" ]; then
+    line
     end_time
+    line
 fi
