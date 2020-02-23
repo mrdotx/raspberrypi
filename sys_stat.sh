@@ -3,7 +3,7 @@
 # path:       ~/projects/shell/raspberrypi/sys_stat.sh
 # author:     klassiker [mrdotx]
 # github:     https://github.com/mrdotx/raspberrypi
-# date:       2020-02-18T19:22:33+0100
+# date:       2020-02-23T14:15:34+0100
 
 script=$(basename "$0")
 help="$script [-h/--help] -- script to show system status
@@ -12,100 +12,86 @@ help="$script [-h/--help] -- script to show system status
 
   Settings:
     without given settings will show all informations
-    h = header with hostname and time
-    d = information about distribution, kernel, firmware
-    s = system information about uptime, ethernet, processor, load, memory and hdd
-    p = top 5 processes
-    m = status main services ssh, pihole, dnscrypt, tor, cups, nginx
-    t = systemd timers
-    f = failures of systemd and journald
-    c = check updates
-    e = execution time of this script
+    -n = header with hostname and time
+    -d = information about distribution, kernel, firmware
+    -s = system information about uptime, ethernet, processor, load, memory and hdd
+    -p = top 5 processes
+    -m = status main services ssh, pihole, dnscrypt, tor, cups, nginx
+    -t = systemd timers
+    -f = failures of systemd and journald
+    -c = check updates
+    -e = execution time of this script
 
   Example:
-    $script hs
-    $script hfc
-    $script hm
-    $script htm"
+    $script -ns
+    $script -nfc
+    $script -nm
+    $script -ntm"
 
 if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
-    echo "$help"
+    printf "%s\n" "$help"
     exit 0
 fi
 
 if [ $# -eq 0 ]; then
-    option=hdspmtfce
+    option="ndspmtfce"
 else
-    option=$1
+    case "$1" in
+        -*)
+            option="$1"
+            ;;
+        *)
+            printf "%s\n" "$help"
+            exit 0
+            ;;
+    esac
 fi
 
-# execution time
-if [ -z "${option##*e*}" ]; then
+start_time() {
     start=$(date +%s.%N)
-fi
+}
 
-# header
-if [ -z "${option##*h*}" ]; then
-    echo "################################################################################"
-    system_name=$(hostname &)
-    standard_time=$(date +"%c" &)
-    echo "[${system_name}] - ${standard_time}"
-    echo "################################################################################"
-    echo
-fi
+header() {
+    printf "################################################################################\n"
+    printf "[%s] - %s\n" "$(hostname)" "$(date +"%c")"
+    printf "################################################################################\n\n"
+}
 
-# distribution
-if [ -z "${option##*d*}" ]; then
-    echo "[Distribution]"
-    echo "--------------------------------------------------------------------------------"
-    name=$(awk -F '"' '/PRETTY_NAME/{print $2}' /etc/os-release &)
-    kernel=$(uname -msr &)
-    firmware=$(awk -F '#' '{print $2}' /proc/version &)
-    echo "name:         ${name}"
-    echo "kernel:       ${kernel}"
-    echo "firmware:     #${firmware}"
-    echo
-fi
+distribution() {
+    printf "[Distribution]\n"
+    printf "%s\n" "--------------------------------------------------------------------------------"
+    printf "name:         %s\n" "$(awk -F '"' '/PRETTY_NAME/{print $2}' /etc/os-release)"
+    printf "kernel:       %s\n" "$(uname -msr)"
+    printf "firmware:     #%s\n\n" "$(awk -F '#' '{print $2}' /proc/version)"
+}
 
-# system
-if [ -z "${option##*s*}" ]; then
-    echo "[System]"
-    echo "--------------------------------------------------------------------------------"
-    operating_time=$(uptime --pretty &)
-    net_send=$(awk '{print $1/1024/1024/1024}' /sys/class/net/eth0/statistics/tx_bytes &)
-    net_received=$(awk '{print $1/1024/1024/1024}' /sys/class/net/eth0/statistics/rx_bytes &)
-    cpu=$(awk -F ": " '/Hardware/{print $2}' /proc/cpuinfo &)
-    cpu_frequency=$(/opt/vc/bin/vcgencmd measure_clock arm | awk -F "=" '{printf ("%0.0f",$2/1000000); }' &)
-    cpu_temp=$(/opt/vc/bin/vcgencmd measure_temp | awk -F '=' '{print $2}' &)
-    voltage=$(/opt/vc/bin/vcgencmd measure_volts | awk -F '=' '{print $2}' | sed 's/000//' &)
-    scaling_governor=$(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor &)
-    load_avg=$(awk -F ' ' '{print $1" "$2" "$3}' /proc/loadavg &)
-    memory=$(free -h &)
-    disc=$(df -hPT /boot / &)
-    echo "uptime:       ${operating_time}"
-    echo "ethernet:     sent: ${net_send}GB received: ${net_received}GB"
-    echo "processor:    ${cpu} ${cpu_frequency}MHz ${voltage} ${scaling_governor} ${cpu_temp}"
-    echo "load:         ${load_avg}"
-    echo
-    echo "${memory}"
-    echo
-    echo "${disc}"
-    echo
-fi
+system() {
+    printf "[System]\n"
+    printf "%s\n" "--------------------------------------------------------------------------------"
+    printf "uptime:       %s\n" "$(uptime --pretty)"
+    printf "ethernet:     sent: %fGB received: %fGB\n" \
+        "$(awk '{print $1/1024/1024/1024}' /sys/class/net/eth0/statistics/tx_bytes)" \
+        "$(awk '{print $1/1024/1024/1024}' /sys/class/net/eth0/statistics/rx_bytes)"
+    printf "processor:    %s %sMHz %s %s %s\n" \
+        "$(awk -F ": " '/Hardware/{print $2}' /proc/cpuinfo)" \
+        "$(/opt/vc/bin/vcgencmd measure_clock arm | awk -F "=" '{printf ("%0.0f",$2/1000000); }')" \
+        "$(/opt/vc/bin/vcgencmd measure_volts | awk -F '=' '{print $2}' | sed 's/000//')" \
+        "$(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor)" \
+        "$(/opt/vc/bin/vcgencmd measure_temp | awk -F '=' '{print $2}')"
+    printf "load:         %s\n\n" "$(awk -F ' ' '{print $1" "$2" "$3}' /proc/loadavg)"
+    printf "%s\n\n" "$(free -h)"
+    printf "%s\n\n" "$(df -hPT /boot /)"
+}
 
-# processes
-if [ -z "${option##*p*}" ]; then
-    echo "[Top 5 Processes]"
-    echo "--------------------------------------------------------------------------------"
-    top_processes=$(ps -e -o pid,etimes,time,comm --sort -time | sed "6q" &)
-    echo "${top_processes}"
-    echo
-fi
+processes() {
+    printf "[Top %d Processes]\n" "$1"
+    printf "%s\n" "--------------------------------------------------------------------------------"
+    printf "%s\n\n" "$(ps -e -o pid,etimes,time,comm --sort -time | sed "$(($1+1))q")"
+}
 
-# main services
-if [ -z "${option##*m*}" ]; then
-    echo "[Services]"
-    echo "--------------------------------------------------------------------------------"
+services() {
+    printf "[Services]\n"
+    printf "%s\n" "--------------------------------------------------------------------------------"
     service() {
         if [ "$(systemctl is-active "$1")" = "active" ]; then
             status="up  "
@@ -122,56 +108,74 @@ if [ -z "${option##*m*}" ]; then
             port="closed"
         fi
     }
-    echo "Service           Status  Port            RunTime"
+    printf "Service           Status  Port            RunTime\n"
     service "sshd"; ports "22"
-    echo "ssh               $status    22    $port    $runtime"
+    printf "ssh               %s    22    %s    %s\n" "$status" "$port" "$runtime"
     service "pihole-FTL"; ports "53"
-    echo "pihole            $status    53    $port    $runtime"
+    printf "pihole            %s    53    %s    %s\n" "$status" "$port" "$runtime"
     service "dnscrypt-proxy"; ports "5300"
-    echo "dnscrypt          $status    5300  $port    $runtime"
+    printf "dnscrypt          %s    5300  %s    %s\n" "$status" "$port" "$runtime"
     service "tor"; ports "9050"
-    echo "tor               $status    9050  $port    $runtime"
+    printf "tor               %s    9050  %s    %s\n" "$status" "$port" "$runtime"
     service "org.cups.cupsd"; ports "631"
-    echo "cups              $status    631   $port    $runtime"
+    printf "cups              %s    631   %s    %s\n" "$status" "$port" "$runtime"
     service "nginx"; ports "80"
-    echo "nginx             $status    80    $port    $runtime"
+    printf "nginx             %s    80    %s    %s\n" "$status" "$port" "$runtime"
     ports "443"
-    echo "                          443   $port"
-    echo
-fi
+    printf "                          443   %s\n\n" "$port"
+}
 
-# timers
-if [ -z "${option##*t*}" ]; then
-    echo "[Timers]"
-    echo "--------------------------------------------------------------------------------"
-    timers=$(systemctl list-timers --all)
-    echo "${timers}" | fold
-    echo
-fi
+timers() {
+    printf "[Timers]\n"
+    printf "%s\n" "--------------------------------------------------------------------------------"
+    printf "%s\n\n" "$(systemctl list-timers --all | fold)"
+}
 
-# failures
-if [ -z "${option##*f*}" ]; then
-    echo "[Failures]"
-    echo "--------------------------------------------------------------------------------"
-    failures=$(systemctl --failed && journalctl -p 3 -xb &)
-    echo "${failures}" | fold
-    echo
-fi
+failures() {
+    printf "[Failures]\n"
+    printf "%s\n" "--------------------------------------------------------------------------------"
+    printf "%s\n\n" "$(systemctl --failed | fold && journalctl -p 3 -xb | fold)"
+}
 
-# check updates
-if [ -z "${option##*c*}" ]; then
-    echo "[Packages]"
-    echo "--------------------------------------------------------------------------------"
-    packages=$(checkupdates &)
-    echo "${packages}"
-    echo
-fi
+updates() {
+    printf "[Packages\n]"
+    printf "%s\n" "--------------------------------------------------------------------------------"
+    printf "%s\n\n" "$(checkupdates)"
+}
 
-# execution time
+end_time() {
+    printf "################################################################################\n"
+    printf "Script Execution Time: %s\n" "$(date -u -d "0 $(date +%s.%N) sec - $start sec" +"%H:%M:%S.%3N")"
+    printf "################################################################################\n"
+}
+
 if [ -z "${option##*e*}" ]; then
-    echo "################################################################################"
-    duration=$(echo "$(date +%s.%N) - $start" | bc)
-    execution_time=$(printf "%.2f seconds" "$duration")
-    echo "Script Execution Time: $execution_time"
-    echo "################################################################################"
+    start_time
+fi
+if [ -z "${option##*n*}" ]; then
+    header
+fi
+if [ -z "${option##*d*}" ]; then
+    distribution
+fi
+if [ -z "${option##*s*}" ]; then
+    system
+fi
+if [ -z "${option##*p*}" ]; then
+    processes 5
+fi
+if [ -z "${option##*m*}" ]; then
+    services
+fi
+if [ -z "${option##*t*}" ]; then
+    timers
+fi
+if [ -z "${option##*f*}" ]; then
+    failures
+fi
+if [ -z "${option##*c*}" ]; then
+    updates
+fi
+if [ -z "${option##*e*}" ]; then
+    end_time
 fi
