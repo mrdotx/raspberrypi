@@ -3,38 +3,36 @@
 # path:       ~/projects/shell/raspberrypi/stability.sh
 # author:     klassiker [mrdotx]
 # github:     https://github.com/mrdotx/raspberrypi
-# date:       2020-02-18T19:06:08+0100
+# date:       2020-02-24T09:13:02+0100
 
 vcgencmd="/opt/vc/bin/vcgencmd"
 cores=$(($(nproc --all) - 1))
 
-echo "raspberry pi stability test"
-
-echo ":: heat up all cpu cores to stress the power-supply"
+printf ":: heat up all cpu cores to stress the power-supply\n"
 for i in $(seq 0 $cores); do
-    echo " core: $i"
+    printf " core: %s\n" "$i"
     nice yes >/dev/null &
 done
 
-echo ":: read the entire sd card 5 times"
+printf ":: read the entire sd card 5 times\n"
 for i in $(seq 1 5); do
-    echo " reading: $i"
+    printf " reading: %s\n" "$i"
     sudo dd if=/dev/mmcblk0 of=/dev/null bs=4M
 done
 
-echo ":: writes 512mb test file 5 times"
+printf ":: writes 512mb test file 5 times\n"
 for i in $(seq 1 5); do
-    echo " writing: $i"
+    printf " writing: %s\n" "$i"
     dd if=/dev/zero of=test.dat bs=1M count=512
     sync
 done
 
-echo ":: kill processes and delete test file"
+printf ":: kill processes and delete test file\n"
 sudo killall yes
 rm test.dat
 
-echo ":: summery"
+printf ":: summery\n"
 printf " cpu freq: %s MHz\n" "$($vcgencmd measure_clock arm | awk -F"=" '{printf ("%0.0f",$2/1000000); }')"
 printf " cpu temp: %s\n" "$($vcgencmd measure_temp | cut -f2 -d=)"
-echo ":: check dmesg, the failures will be shown there"
+printf ":: check dmesg, the failures will be shown there\n"
 dmesg | tail -n 5
