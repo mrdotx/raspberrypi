@@ -3,7 +3,7 @@
 # path:       ~/projects/shell/raspberrypi/sys_stat.sh
 # author:     klassiker [mrdotx]
 # github:     https://github.com/mrdotx/raspberrypi
-# date:       2020-02-23T15:36:17+0100
+# date:       2020-02-25T13:00:00+0100
 
 script=$(basename "$0")
 help="$script [-h/--help] -- script to show system status
@@ -67,9 +67,9 @@ distribution() {
 
 system() {
     printf "uptime:       %s\n" "$(uptime --pretty)"
-    printf "ethernet:     sent: %fGB received: %fGB\n" \
-        "$(awk '{print $1/1024/1024/1024}' /sys/class/net/eth0/statistics/tx_bytes)" \
-        "$(awk '{print $1/1024/1024/1024}' /sys/class/net/eth0/statistics/rx_bytes)"
+    printf "ethernet:     sent: %.3fGB received: %.3fGB\n" \
+        "$(awk '{print $1/1024/1024}' /sys/class/net/eth0/statistics/tx_bytes)" \
+        "$(awk '{print $1/1024/1024}' /sys/class/net/eth0/statistics/rx_bytes)"
     printf "processor:    %s %sMHz %s %s %s\n" \
         "$(awk -F ": " '/Hardware/{print $2}' /proc/cpuinfo)" \
         "$(/opt/vc/bin/vcgencmd measure_clock arm | awk -F "=" '{printf ("%0.0f",$2/1000000); }')" \
