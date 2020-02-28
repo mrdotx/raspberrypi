@@ -1,9 +1,9 @@
 #!/bin/sh
 
-# path:       ~/projects/shell/raspberrypi/undervoltage.sh
+# path:       ~/repos/shell/raspberrypi/undervoltage.sh
 # author:     klassiker [mrdotx]
 # github:     https://github.com/mrdotx/raspberrypi
-# date:       2020-02-24T09:25:28+0100
+# date:       2020-02-28T08:20:21+0100
 
 # information for results
 # 0: under-voltage

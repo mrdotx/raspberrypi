@@ -1,9 +1,9 @@
 #!/bin/sh
 
-# path:       ~/projects/shell/raspberrypi/sys_stat.sh
+# path:       ~/repos/shell/raspberrypi/sys_stat.sh
 # author:     klassiker [mrdotx]
 # github:     https://github.com/mrdotx/raspberrypi
-# date:       2020-02-25T13:40:07+0100
+# date:       2020-02-28T08:20:10+0100
 
 script=$(basename "$0")
 help="$script [-h/--help] -- script to show system status
