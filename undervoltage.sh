@@ -3,7 +3,7 @@
 # path:       ~/repos/shell/raspberrypi/undervoltage.sh
 # author:     klassiker [mrdotx]
 # github:     https://github.com/mrdotx/raspberrypi
-# date:       2020-02-28T08:20:21+0100
+# date:       2020-03-09T12:41:21+0100
 
 # information for results
 # 0: under-voltage
@@ -38,13 +38,12 @@
 
 vcgencmd="/opt/vc/bin/vcgencmd"
 cpu_freq="/sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq"
-printf "to stop press [ctrl]-[c]\n"
-i=14
+i=9
 header="time     temp    cpu fake/real  health state        vcore"
 while true; do
     i=$(( i + 1 ))
-    if [ "$i" -eq 15 ]; then
-        printf "%s\n" "$header"
+    if [ "$i" -eq 10 ]; then
+        printf "\n%s\n" "$header"
         i=0
     fi
     throttled=$($vcgencmd get_throttled | cut -f2 -dx)
