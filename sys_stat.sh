@@ -3,7 +3,7 @@
 # path:       ~/repos/shell/raspberrypi/sys_stat.sh
 # author:     klassiker [mrdotx]
 # github:     https://github.com/mrdotx/raspberrypi
-# date:       2020-02-28T08:20:10+0100
+# date:       2020-03-09T08:40:46+0100
 
 script=$(basename "$0")
 help="$script [-h/--help] -- script to show system status
@@ -122,11 +122,11 @@ services() {
 }
 
 timers() {
-    printf "%s\n\n" "$(systemctl list-timers --all | fold)"
+    printf "%s\n\n" "$(systemctl list-timers --all | fold -s)"
 }
 
 failures() {
-    printf "%s\n\n" "$(systemctl --failed | fold && journalctl -p 3 -xb | fold)"
+    printf "%s\n\n" "$(systemctl --failed | fold -s && journalctl -p 3 -xb | fold -s)"
 }
 
 updates() {
