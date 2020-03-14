@@ -3,7 +3,7 @@
 # path:       ~/repos/shell/raspberrypi/sys_stat.sh
 # author:     klassiker [mrdotx]
 # github:     https://github.com/mrdotx/raspberrypi
-# date:       2020-03-09T08:40:46+0100
+# date:       2020-03-14T13:06:07+0100
 
 script=$(basename "$0")
 help="$script [-h/--help] -- script to show system status
@@ -62,7 +62,9 @@ header() {
 distribution() {
     printf "name:         %s\n" "$(awk -F '"' '/PRETTY_NAME/{print $2}' /etc/os-release)"
     printf "kernel:       %s\n" "$(uname -msr)"
-    printf "firmware:     #%s\n\n" "$(awk -F '#' '{print $2}' /proc/version)"
+    printf "firmware:     #%s\n" "$(awk -F '#' '{print $2}' /proc/version)"
+    # shellcheck disable=SC2012
+    printf "shell link:   %s\n\n" "$(ls -lha /bin/sh | awk -F ' ' '{print $9" "$10" "$11}')"
 }
 
 system() {
