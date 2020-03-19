@@ -3,7 +3,7 @@
 # path:       ~/repos/shell/raspberrypi/sys_stat.sh
 # author:     klassiker [mrdotx]
 # github:     https://github.com/mrdotx/raspberrypi
-# date:       2020-03-14T13:06:07+0100
+# date:       2020-03-19T14:42:25+0100
 
 script=$(basename "$0")
 help="$script [-h/--help] -- script to show system status
@@ -139,53 +139,43 @@ end_time() {
     printf "Script Execution Time: %s\n" "$(date -u -d "0 $(date +%s.%N) sec - $start sec" +"%H:%M:%S.%3N")"
 }
 
-if [ -z "${option##*e*}" ]; then
-    start_time
-fi
-if [ -z "${option##*n*}" ]; then
-    line
-    header
-    line
-    printf "\n"
-fi
-if [ -z "${option##*d*}" ]; then
-    printf "[Distribution]\n"
-    line
-    distribution
-fi
-if [ -z "${option##*s*}" ]; then
-    printf "[System]\n"
-    line
-    system
-fi
-if [ -z "${option##*p*}" ]; then
-    top=5
-    printf "[Top %d Processes]\n" "$top"
-    line
-    processes $top
-fi
-if [ -z "${option##*m*}" ]; then
-    printf "[Services]\n"
-    line
-    services
-fi
-if [ -z "${option##*t*}" ]; then
-    printf "[Timers]\n"
-    line
-    timers
-fi
-if [ -z "${option##*f*}" ]; then
-    printf "[Failures]\n"
-    line
-    failures
-fi
-if [ -z "${option##*c*}" ]; then
-    printf "[Packages]\n"
-    line
-    updates
-fi
-if [ -z "${option##*e*}" ]; then
-    line
-    end_time
-    line
-fi
+[ -z "${option##*e*}" ] \
+    && start_time
+[ -z "${option##*n*}" ] \
+    && line \
+    && header \
+    && line \
+    && printf "\n"
+[ -z "${option##*d*}" ] \
+    && printf "[Distribution]\n" \
+    && line \
+    && distribution \
+[ -z "${option##*s*}" ] \
+    && printf "[System]\n" \
+    && line \
+    && system \
+[ -z "${option##*p*}" ] \
+    && top=5 \
+    && printf "[Top %d Processes]\n" "$top" \
+    && line \
+    && processes $top
+[ -z "${option##*m*}" ] \
+    && printf "[Services]\n" \
+    && line \
+    && services
+[ -z "${option##*t*}" ] \
+    && printf "[Timers]\n" \
+    && line \
+    && timers
+[ -z "${option##*f*}" ] \
+    && printf "[Failures]\n" \
+    && line \
+    && failures
+[ -z "${option##*c*}" ] \
+    && printf "[Packages]\n" \
+    && line \
+    && updates
+[ -z "${option##*e*}" ] \
+    && line \
+    && end_time \
+    && line

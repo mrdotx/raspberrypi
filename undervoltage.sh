@@ -3,7 +3,7 @@
 # path:       ~/repos/shell/raspberrypi/undervoltage.sh
 # author:     klassiker [mrdotx]
 # github:     https://github.com/mrdotx/raspberrypi
-# date:       2020-03-09T12:41:21+0100
+# date:       2020-03-19T14:45:41+0100
 
 # information for results
 # 0: under-voltage
@@ -42,10 +42,9 @@ i=9
 header="time     temp    cpu fake/real  health state        vcore"
 while true; do
     i=$(( i + 1 ))
-    if [ "$i" -eq 10 ]; then
-        printf "\n%s\n" "$header"
-        i=0
-    fi
+    [ "$i" -eq 10 ] \
+        && printf "\n%s\n" "$header" \
+        && i=0
     throttled=$($vcgencmd get_throttled | cut -f2 -dx)
     health=$(printf "obase=2; ibase=16; %s\n" "$throttled" | bc)
     temp=$($vcgencmd measure_temp | cut -f2 -d=)
