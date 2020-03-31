@@ -3,8 +3,11 @@
 # path:       ~/.local/share/repos/raspberrypi/stability.sh
 # author:     klassiker [mrdotx]
 # github:     https://github.com/mrdotx/raspberrypi
-# date:       2020-03-25T23:23:50+0100
+# date:       2020-03-31T23:45:54+0200
 
+# authorization can be something like sudo -A, doas -- or
+# nothing, depending on service configuration
+authorization="doas"
 vcgencmd="/opt/vc/bin/vcgencmd"
 cores=$(($(nproc --all) - 1))
 
@@ -17,7 +20,7 @@ done
 printf ":: read the entire sd card 5 times\n"
 for i in $(seq 1 5); do
     printf " reading: %s\n" "$i"
-    sudo dd if=/dev/mmcblk0 of=/dev/null bs=4M
+    $authorization dd if=/dev/mmcblk0 of=/dev/null bs=4M
 done
 
 printf ":: writes 512mb test file 5 times\n"
@@ -28,7 +31,7 @@ for i in $(seq 1 5); do
 done
 
 printf ":: kill processes and delete test file\n"
-sudo killall yes
+$authorization killall yes
 rm test.dat
 
 printf ":: summery\n"
