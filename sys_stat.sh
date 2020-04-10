@@ -3,7 +3,7 @@
 # path:       ~/.local/share/repos/raspberrypi/sys_stat.sh
 # author:     klassiker [mrdotx]
 # github:     https://github.com/mrdotx/raspberrypi
-# date:       2020-03-25T23:23:37+0100
+# date:       2020-04-10T19:04:12+0200
 
 script=$(basename "$0")
 help="$script [-h/--help] -- script to show system status
@@ -132,7 +132,7 @@ failures() {
 }
 
 updates() {
-    printf "%s\n\n" "$(checkupdates)"
+    printf "%s\n\n" "$(checkupdates && yay -Qua)"
 }
 
 end_time() {
