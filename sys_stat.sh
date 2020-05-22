@@ -3,7 +3,7 @@
 # path:       /home/klassiker/.local/share/repos/raspberrypi/sys_stat.sh
 # author:     klassiker [mrdotx]
 # github:     https://github.com/mrdotx/raspberrypi
-# date:       2020-04-29T11:13:12+0200
+# date:       2020-05-22T02:41:13+0200
 
 script=$(basename "$0")
 help="$script [-h/--help] -- script to show system status
@@ -136,7 +136,7 @@ updates() {
 }
 
 end_time() {
-    printf "Script Execution Time: %s\n" "$(date -u -d "0 $(date +%s.%N) sec - $start sec" +"%H:%M:%S.%3N")"
+    printf "Script Execution Time: %s - %s\n" "$(date -u -d "0 $(date +%s.%N) sec - $start sec" +"%H:%M:%S.%3N")" "$(date +"%c")"
 }
 
 [ -z "${option##*e*}" ] \
