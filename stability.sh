@@ -3,7 +3,7 @@
 # path:       /home/klassiker/.local/share/repos/raspberrypi/stability.sh
 # author:     klassiker [mrdotx]
 # github:     https://github.com/mrdotx/raspberrypi
-# date:       2020-04-29T11:13:06+0200
+# date:       2020-05-23T20:30:44+0200
 
 # auth can be something like sudo -A, doas -- or
 # nothing, depending on configuration requirements
@@ -35,7 +35,11 @@ $auth killall yes
 rm test.dat
 
 printf ":: summery\n"
-printf " cpu freq: %s MHz\n" "$($vcgencmd measure_clock arm | awk -F"=" '{printf ("%0.0f",$2/1000000); }')"
-printf " cpu temp: %s\n" "$($vcgencmd measure_temp | cut -f2 -d=)"
+printf " cpu freq: %s MHz\n" "$($vcgencmd measure_clock arm \
+        | awk -F"=" '{printf ("%0.0f",$2/1000000); }' \
+    )"
+printf " cpu temp: %s\n" "$($vcgencmd measure_temp \
+        | cut -f2 -d= \
+    )"
 printf ":: check dmesg, the failures will be shown there\n"
 dmesg | tail -n 5

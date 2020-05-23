@@ -3,7 +3,7 @@
 # path:       /home/klassiker/.local/share/repos/raspberrypi/undervoltage.sh
 # author:     klassiker [mrdotx]
 # github:     https://github.com/mrdotx/raspberrypi
-# date:       2020-04-29T11:13:17+0200
+# date:       2020-05-23T20:32:32+0200
 
 # information for results
 # 0: under-voltage
@@ -45,12 +45,23 @@ while true; do
     [ "$i" -eq 10 ] \
         && printf "\n%s\n" "$header" \
         && i=0
-    throttled=$($vcgencmd get_throttled | cut -f2 -dx)
-    health=$(printf "obase=2; ibase=16; %s\n" "$throttled" | bc)
-    temp=$($vcgencmd measure_temp | cut -f2 -d=)
-    real_cs=$($vcgencmd measure_clock arm | awk -F"=" '{printf ("%0.0f",$2/1000000); }')
+    throttled=$($vcgencmd get_throttled \
+        | cut -f2 -dx \
+    )
+    health=$(printf "obase=2; ibase=16; %s\n" "$throttled" \
+        | bc \
+    )
+    temp=$($vcgencmd measure_temp \
+        | cut -f2 -d= \
+    )
+    real_cs=$($vcgencmd measure_clock arm \
+        | awk -F"=" '{printf ("%0.0f",$2/1000000); }' \
+    )
     sys_cs=$(awk '{printf ("%0.0f",$1/1000); }' <$cpu_freq)
-    v_core=$($vcgencmd measure_volts | cut -f2 -d= | sed 's/000//')
+    v_core=$($vcgencmd measure_volts \
+        | cut -f2 -d= \
+        | sed 's/000//' \
+    )
     printf "%s %s%5s/%4s MHz   %019d %s\n" "$(date "+%H:%M:%S")" "$temp" "$sys_cs" "$real_cs" "$health" "$v_core"
     sleep 5
 done

@@ -3,7 +3,7 @@
 # path:       /home/klassiker/.local/share/repos/raspberrypi/sys_stat.sh
 # author:     klassiker [mrdotx]
 # github:     https://github.com/mrdotx/raspberrypi
-# date:       2020-05-22T02:41:13+0200
+# date:       2020-05-23T20:36:36+0200
 
 script=$(basename "$0")
 help="$script [-h/--help] -- script to show system status
@@ -64,7 +64,9 @@ distribution() {
     printf "kernel:       %s\n" "$(uname -msr)"
     printf "firmware:     #%s\n" "$(awk -F '#' '{print $2}' /proc/version)"
     # shellcheck disable=SC2012
-    printf "shell link:   %s\n\n" "$(ls -lha /bin/sh | awk -F ' ' '{print $9" "$10" "$11}')"
+    printf "shell link:   %s\n\n" "$(ls -lha /bin/sh \
+            | awk -F ' ' '{print $9" "$10" "$11}' \
+        )"
 }
 
 system() {
@@ -76,24 +78,34 @@ system() {
             /sys/class/net/eth0/statistics/rx_bytes)"
     printf "processor:    %s %sMHz %s %s %s\n" \
         "$(awk -F ": " '/Hardware/{print $2}' /proc/cpuinfo)" \
-        "$(/opt/vc/bin/vcgencmd measure_clock arm | awk -F "=" '{printf ("%0.0f",$2/1000000); }')" \
-        "$(/opt/vc/bin/vcgencmd measure_volts | awk -F '=' '{print $2}' | sed 's/000//')" \
+        "$(/opt/vc/bin/vcgencmd measure_clock arm \
+            | awk -F "=" '{printf ("%0.0f",$2/1000000); }')" \
+        "$(/opt/vc/bin/vcgencmd measure_volts \
+            | awk -F '=' '{print $2}' \
+            | sed 's/000//' \
+        )" \
         "$(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor)" \
-        "$(/opt/vc/bin/vcgencmd measure_temp | awk -F '=' '{print $2}')"
+        "$(/opt/vc/bin/vcgencmd measure_temp \
+            | awk -F '=' '{print $2}' \
+        )"
     printf "load:         %s\n\n" "$(awk -F ' ' '{print $1" "$2" "$3}' /proc/loadavg)"
     printf "%s\n\n" "$(free -h)"
     printf "%s\n\n" "$(df -hPT /boot /)"
 }
 
 processes() {
-    printf "%s\n\n" "$(ps -e -o pid,etimes,time,comm --sort -time | sed "$(($1+1))q")"
+    printf "%s\n\n" "$(ps -e -o pid,etimes,time,comm --sort -time \
+            | sed "$(($1+1))q" \
+        )"
 }
 
 services() {
     service() {
         if [ "$(systemctl is-active "$1")" = "active" ]; then
             status="up  "
-            runtime="$(systemctl status "$1" | awk -F '; ' 'FNR == 3 {print $NF}')"
+            runtime="$(systemctl status "$1" \
+                    | awk -F '; ' 'FNR == 3 {print $NF}' \
+                )"
         else
             status="down"
             runtime="-"
@@ -124,11 +136,16 @@ services() {
 }
 
 timers() {
-    printf "%s\n\n" "$(systemctl list-timers --all | fold -s)"
+    printf "%s\n\n" "$(systemctl list-timers --all \
+            | fold -s \
+        )"
 }
 
 failures() {
-    printf "%s\n\n" "$(systemctl --failed | fold -s && journalctl -p 3 -xb | fold -s)"
+    printf "%s\n\n" "$(systemctl --failed \
+            | fold -s && journalctl -p 3 -xb \
+            | fold -s \
+        )"
 }
 
 updates() {
