@@ -3,7 +3,7 @@
 # path:       /home/klassiker/.local/share/repos/raspberrypi/sys_stat.sh
 # author:     klassiker [mrdotx]
 # github:     https://github.com/mrdotx/raspberrypi
-# date:       2020-05-26T12:35:37+0200
+# date:       2020-06-03T13:04:28+0200
 
 script=$(basename "$0")
 help="$script [-h/--help] -- script to show system status
@@ -20,7 +20,7 @@ help="$script [-h/--help] -- script to show system status
     -t = systemd timers
     -f = failures of systemd and journald
     -c = check updates
-    -e = execution time of this script
+    -e = footer with hostname and time
 
   Example:
     $script -ns
@@ -46,10 +46,6 @@ else
             ;;
     esac
 fi
-
-start_time(){
-    start=$(date +%s.%N)
-}
 
 line(){
     printf "%s\n" "================================================================================"
@@ -152,8 +148,8 @@ updates(){
     printf "%s\n\n" "$(checkupdates && yay -Qua)"
 }
 
-end_time(){
-    printf "Script Execution Time: %s - %s\n" "$(date -u -d "0 $(date +%s.%N) sec - $start sec" +"%H:%M:%S.%3N")" "$(date +"%c")"
+footer(){
+    printf "[%s] - %s\n" "$(hostname)" "$(date +"%c")"
 }
 
 [ -z "${option##*e*}" ] \
@@ -194,5 +190,5 @@ end_time(){
     && updates
 [ -z "${option##*e*}" ] \
     && line \
-    && end_time \
+    && footer \
     && line
