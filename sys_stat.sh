@@ -3,7 +3,7 @@
 # path:       /home/klassiker/.local/share/repos/raspberrypi/sys_stat.sh
 # author:     klassiker [mrdotx]
 # github:     https://github.com/mrdotx/raspberrypi
-# date:       2020-06-03T13:04:28+0200
+# date:       2020-06-06T09:24:07+0200
 
 script=$(basename "$0")
 help="$script [-h/--help] -- script to show system status
@@ -47,15 +47,15 @@ else
     esac
 fi
 
-line(){
+line() {
     printf "%s\n" "================================================================================"
 }
 
-header(){
+header() {
     printf "[%s] - %s\n" "$(hostname)" "$(date +"%c")"
 }
 
-distribution(){
+distribution() {
     printf "name:         %s\n" "$(awk -F '"' '/PRETTY_NAME/{print $2}' /etc/os-release)"
     printf "kernel:       %s\n" "$(uname -msr)"
     printf "firmware:     #%s\n" "$(awk -F '#' '{print $2}' /proc/version)"
@@ -65,7 +65,7 @@ distribution(){
         )"
 }
 
-system(){
+system() {
     printf "uptime:       %s\n" "$(uptime --pretty)"
     printf "ethernet:     sent: %s received: %s\n" \
         "$(awk '{if < 1073741824) print $1/1024/1024 "MB"; else print $1/1024/1024/1024 "GB";}' \
@@ -89,14 +89,14 @@ system(){
     printf "%s\n\n" "$(df -hPT /boot /)"
 }
 
-processes(){
+processes() {
     printf "%s\n\n" "$(ps -e -o pid,etimes,time,comm --sort -time \
             | sed "$(($1+1))q" \
         )"
 }
 
-services(){
-    service(){
+services() {
+    service() {
         if [ "$(systemctl is-active "$1")" = "active" ]; then
             status="up  "
             runtime="$(systemctl status "$1" \
@@ -107,7 +107,7 @@ services(){
             runtime="-"
         fi
     }
-    ports(){
+    ports() {
         if ss -nlt | grep -q ":$1 "; then
             port="open  "
         else
@@ -131,24 +131,24 @@ services(){
     printf "                          443   %s\n\n" "$port"
 }
 
-timers(){
+timers() {
     printf "%s\n\n" "$(systemctl list-timers --all \
             | fold -s \
         )"
 }
 
-failures(){
+failures() {
     printf "%s\n\n" "$(systemctl --failed \
             | fold -s && journalctl -p 3 -xb \
             | fold -s \
         )"
 }
 
-updates(){
+updates() {
     printf "%s\n\n" "$(checkupdates && yay -Qua)"
 }
 
-footer(){
+footer() {
     printf "[%s] - %s\n" "$(hostname)" "$(date +"%c")"
 }
 
