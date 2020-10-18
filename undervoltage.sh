@@ -3,7 +3,11 @@
 # path:       /home/klassiker/.local/share/repos/raspberrypi/undervoltage.sh
 # author:     klassiker [mrdotx]
 # github:     https://github.com/mrdotx/raspberrypi
-# date:       2020-05-23T20:32:32+0200
+# date:       2020-10-18T11:36:30+0200
+
+# config
+vcgencmd="/opt/vc/bin/vcgencmd"
+cpu_freq="/sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq"
 
 # information for results
 # 0: under-voltage
@@ -36,8 +40,6 @@
 # 0000000000000000000 1.3125V
 # 0000000000000000000 1.3125V
 
-vcgencmd="/opt/vc/bin/vcgencmd"
-cpu_freq="/sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq"
 i=9
 header="time     temp    cpu fake/real  health state        vcore"
 while true; do
