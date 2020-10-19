@@ -3,7 +3,7 @@
 # path:       /home/klassiker/.local/share/repos/raspberrypi/sys_stat.sh
 # author:     klassiker [mrdotx]
 # github:     https://github.com/mrdotx/raspberrypi
-# date:       2020-09-12T15:16:38+0200
+# date:       2020-10-19T20:29:22+0200
 
 script=$(basename "$0")
 help="$script [-h/--help] -- script to show system status
@@ -28,9 +28,10 @@ help="$script [-h/--help] -- script to show system status
     $script -nm
     $script -ntm"
 
-if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
-    printf "%s\n" "$help"
-    exit 0
+if [ "$1" = "-h" ] \
+    || [ "$1" = "--help" ]; then
+        printf "%s\n" "$help"
+        exit 0
 fi
 
 if [ $# -eq 0 ]; then
@@ -68,9 +69,9 @@ distribution() {
 system() {
     printf "uptime:       %s\n" "$(uptime --pretty)"
     printf "ethernet:     sent: %s received: %s\n" \
-        "$(awk '{if < 1073741824) print $1/1024/1024 "MB"; else print $1/1024/1024/1024 "GB";}' \
+        "$(awk '{if ($1/1024/1024 < 1073741824) print $1/1024/1024 "MB"; else print $1/1024/1024/1024 "GB";}' \
             /sys/class/net/eth0/statistics/tx_bytes)" \
-        "$(awk '{if < 1073741824) print $1/1024/1024 "MB"; else print $1/1024/1024/1024 "GB";}' \
+            "$(awk '{if ($1/1024/1024 < 1073741824) print $1/1024/1024 "MB"; else print $1/1024/1024/1024 "GB";}' \
             /sys/class/net/eth0/statistics/rx_bytes)"
     printf "processor:    %s %sMHz %s %s %s\n" \
         "$(awk -F ": " '/Hardware/{print $2}' /proc/cpuinfo)" \
