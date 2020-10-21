@@ -3,7 +3,7 @@
 # path:       /home/klassiker/.local/share/repos/raspberrypi/sys_stat.sh
 # author:     klassiker [mrdotx]
 # github:     https://github.com/mrdotx/raspberrypi
-# date:       2020-10-19T20:29:22+0200
+# date:       2020-10-21T18:46:29+0200
 
 script=$(basename "$0")
 help="$script [-h/--help] -- script to show system status
@@ -153,8 +153,6 @@ footer() {
     printf "[%s] - %s\n" "$(hostname)" "$(date +"%c")"
 }
 
-[ -z "${option##*e*}" ] \
-    && start_time
 [ -z "${option##*n*}" ] \
     && line \
     && header \
