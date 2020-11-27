@@ -3,7 +3,7 @@
 # path:       /home/klassiker/.local/share/repos/raspberrypi/sys_stat.sh
 # author:     klassiker [mrdotx]
 # github:     https://github.com/mrdotx/raspberrypi
-# date:       2020-11-05T14:40:49+0100
+# date:       2020-11-27T15:24:43+0100
 
 script=$(basename "$0")
 help="$script [-h/--help] -- script to show system status
@@ -16,7 +16,7 @@ help="$script [-h/--help] -- script to show system status
     -d = information about distribution, kernel, firmware
     -s = system information about uptime, ethernet, processor, load, memory and hdd
     -p = top 5 processes
-    -m = status main services ssh, pihole, dnscrypt, tor, cups, nginx
+    -m = status main services ssh, pihole, unbound, tor, cups, nginx
     -t = systemd timers
     -f = failures of systemd and journald
     -c = check updates
@@ -120,11 +120,11 @@ services() {
     printf "ssh               %s    22    %s    %s\n" "$status" "$port" "$runtime"
     service "pihole-FTL"; ports "53"
     printf "pihole            %s    53    %s    %s\n" "$status" "$port" "$runtime"
-    service "dnscrypt-proxy"; ports "5300"
-    printf "dnscrypt          %s    5300  %s    %s\n" "$status" "$port" "$runtime"
+    service "unbound"; ports "5300"
+    printf "unbound           %s    5300  %s    %s\n" "$status" "$port" "$runtime"
     service "tor"; ports "9050"
     printf "tor               %s    9050  %s    %s\n" "$status" "$port" "$runtime"
-    service "org.cups.cupsd"; ports "631"
+    service "cups"; ports "631"
     printf "cups              %s    631   %s    %s\n" "$status" "$port" "$runtime"
     service "nginx"; ports "80"
     printf "nginx             %s    80    %s    %s\n" "$status" "$port" "$runtime"
