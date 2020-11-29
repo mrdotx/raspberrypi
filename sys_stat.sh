@@ -3,7 +3,7 @@
 # path:       /home/klassiker/.local/share/repos/raspberrypi/sys_stat.sh
 # author:     klassiker [mrdotx]
 # github:     https://github.com/mrdotx/raspberrypi
-# date:       2020-11-27T15:24:43+0100
+# date:       2020-11-29T10:34:21+0100
 
 script=$(basename "$0")
 help="$script [-h/--help] -- script to show system status
@@ -120,8 +120,8 @@ services() {
     printf "ssh               %s    22    %s    %s\n" "$status" "$port" "$runtime"
     service "pihole-FTL"; ports "53"
     printf "pihole            %s    53    %s    %s\n" "$status" "$port" "$runtime"
-    service "unbound"; ports "5300"
-    printf "unbound           %s    5300  %s    %s\n" "$status" "$port" "$runtime"
+    service "unbound"; ports "5335"
+    printf "unbound           %s    5335  %s    %s\n" "$status" "$port" "$runtime"
     service "tor"; ports "9050"
     printf "tor               %s    9050  %s    %s\n" "$status" "$port" "$runtime"
     service "cups"; ports "631"
