@@ -3,7 +3,7 @@
 # path:       /home/klassiker/.local/share/repos/raspberrypi/sys_stat.sh
 # author:     klassiker [mrdotx]
 # github:     https://github.com/mrdotx/raspberrypi
-# date:       2020-11-29T10:34:21+0100
+# date:       2020-11-29T12:00:39+0100
 
 script=$(basename "$0")
 help="$script [-h/--help] -- script to show system status
@@ -67,12 +67,20 @@ distribution() {
 }
 
 system() {
+    dns_value() {
+        dig +short chaos txt "$1".bind \
+            | tr -d "\""
+    }
     printf "uptime:       %s\n" "$(uptime --pretty)"
     printf "ethernet:     sent: %s received: %s\n" \
         "$(awk '{if ($1/1024/1024 < 1073741824) print $1/1024/1024 "MB"; else print $1/1024/1024/1024 "GB";}' \
             /sys/class/net/eth0/statistics/tx_bytes)" \
             "$(awk '{if ($1/1024/1024 < 1073741824) print $1/1024/1024 "MB"; else print $1/1024/1024/1024 "GB";}' \
             /sys/class/net/eth0/statistics/rx_bytes)"
+    printf "dns:          cachesize: %d insertions: %d evictions: %d\n" \
+        "$(dns_value cachesize)" \
+        "$(dns_value insertions)" \
+        "$(dns_value evictions)"
     printf "processor:    %s %sMHz %s %s %s\n" \
         "$(awk -F ": " '/Hardware/{print $2}' /proc/cpuinfo)" \
         "$(/opt/vc/bin/vcgencmd measure_clock arm \
