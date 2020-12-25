@@ -3,7 +3,7 @@
 # path:       /home/klassiker/.local/share/repos/raspberrypi/sys_stat.sh
 # author:     klassiker [mrdotx]
 # github:     https://github.com/mrdotx/raspberrypi
-# date:       2020-12-14T12:16:08+0100
+# date:       2020-12-25T09:10:12+0100
 
 script=$(basename "$0")
 help="$script [-h/--help] -- script to show system status
@@ -11,7 +11,7 @@ help="$script [-h/--help] -- script to show system status
     $script [settings]
 
   Settings:
-    without given settings will show all informations
+    without given settings, will show all informations
     -n = header with hostname and time
     -d = information about distribution, kernel, firmware
     -s = system information about uptime, ethernet, processor, load, memory and hdd
