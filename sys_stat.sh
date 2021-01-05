@@ -3,7 +3,7 @@
 # path:       /home/klassiker/.local/share/repos/raspberrypi/sys_stat.sh
 # author:     klassiker [mrdotx]
 # github:     https://github.com/mrdotx/raspberrypi
-# date:       2020-12-25T09:10:12+0100
+# date:       2021-01-05T14:02:45+0100
 
 script=$(basename "$0")
 help="$script [-h/--help] -- script to show system status
@@ -64,11 +64,11 @@ distribution() {
     printf "kernel:       %s\n" \
         "$(uname -msr)"
     printf "firmware:     #%s\n" \
-        "$(awk -F '#' '{print $2}' /proc/version)"
+        "$(cut -d '#' -f2 /proc/version)"
     # shellcheck disable=SC2012
     printf "shell link:   %s\n\n" \
         "$(ls -lha /bin/sh \
-            | awk -F ' ' '{print $9" "$10" "$11}' \
+            | cut -d ' ' -f9-11 \
         )"
 }
 
@@ -93,15 +93,15 @@ system() {
         "$(/opt/vc/bin/vcgencmd measure_clock arm \
             | awk -F "=" '{printf ("%0.0f",$2/1000000); }')" \
         "$(/opt/vc/bin/vcgencmd measure_volts \
-            | awk -F '=' '{print $2}' \
+            | cut -d '=' -f2 \
             | sed 's/000//' \
         )" \
         "$(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor)" \
         "$(/opt/vc/bin/vcgencmd measure_temp \
-            | awk -F '=' '{print $2}' \
+            | cut -d '=' -f2 \
         )"
     printf "load:         %s\n\n" \
-        "$(awk -F ' ' '{print $1" "$2" "$3}' /proc/loadavg)"
+        "$(cut -d ' ' -f1-3 /proc/loadavg)"
     printf "%s\n\n" \
         "$(free -h)"
     printf "%s\n\n" \
