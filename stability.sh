@@ -1,9 +1,9 @@
 #!/bin/sh
 
-# path:       /home/klassiker/.local/share/repos/raspberrypi/stability.sh
-# author:     klassiker [mrdotx]
-# github:     https://github.com/mrdotx/raspberrypi
-# date:       2020-10-18T11:19:06+0200
+# path:   /home/klassiker/.local/share/repos/raspberrypi/stability.sh
+# author: klassiker [mrdotx]
+# github: https://github.com/mrdotx/raspberrypi
+# date:   2021-01-15T13:53:00+0100
 
 # auth can be something like sudo -A, doas -- or
 # nothing, depending on configuration requirements

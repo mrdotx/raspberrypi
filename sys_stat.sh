@@ -1,9 +1,9 @@
 #!/bin/sh
 
-# path:       /home/klassiker/.local/share/repos/raspberrypi/sys_stat.sh
-# author:     klassiker [mrdotx]
-# github:     https://github.com/mrdotx/raspberrypi
-# date:       2021-01-05T14:02:45+0100
+# path:   /home/klassiker/.local/share/repos/raspberrypi/sys_stat.sh
+# author: klassiker [mrdotx]
+# github: https://github.com/mrdotx/raspberrypi
+# date:   2021-01-15T13:53:07+0100
 
 script=$(basename "$0")
 help="$script [-h/--help] -- script to show system status

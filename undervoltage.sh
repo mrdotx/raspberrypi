@@ -1,9 +1,9 @@
 #!/bin/sh
 
-# path:       /home/klassiker/.local/share/repos/raspberrypi/undervoltage.sh
-# author:     klassiker [mrdotx]
-# github:     https://github.com/mrdotx/raspberrypi
-# date:       2020-10-18T11:36:30+0200
+# path:   /home/klassiker/.local/share/repos/raspberrypi/undervoltage.sh
+# author: klassiker [mrdotx]
+# github: https://github.com/mrdotx/raspberrypi
+# date:   2021-01-15T13:53:19+0100
 
 # config
 vcgencmd="/opt/vc/bin/vcgencmd"

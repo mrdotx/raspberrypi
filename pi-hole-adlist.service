@@ -1,7 +1,7 @@
-# path:       /home/klassiker/.local/share/repos/raspberrypi/pi-hole-adlist.service
-# author:     klassiker [mrdotx]
-# github:     https://github.com/mrdotx/raspberrypi
-# date:       2020-05-23T00:19:07+0200
+# path:   /home/klassiker/.local/share/repos/raspberrypi/pi-hole-adlist.service
+# author: klassiker [mrdotx]
+# github: https://github.com/mrdotx/raspberrypi
+# date:   2021-01-15T13:52:43+0100
 
 [Unit]
 Description=adlist directory download from firebog.net
