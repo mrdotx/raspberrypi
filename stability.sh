@@ -3,11 +3,11 @@
 # path:   /home/klassiker/.local/share/repos/raspberrypi/stability.sh
 # author: klassiker [mrdotx]
 # github: https://github.com/mrdotx/raspberrypi
-# date:   2021-01-15T13:53:00+0100
+# date:   2021-04-30T10:03:40+0200
 
-# auth can be something like sudo -A, doas -- or
-# nothing, depending on configuration requirements
-auth="doas"
+# auth can be something like sudo -A, doas -- or nothing,
+# depending on configuration requirements
+auth="$EXEC_AS_USER"
 vcgencmd="/opt/vc/bin/vcgencmd"
 cores=$(($(nproc --all) - 1))
 
