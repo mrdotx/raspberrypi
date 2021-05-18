@@ -3,7 +3,7 @@
 # path:   /home/klassiker/.local/share/repos/raspberrypi/sys_stat.sh
 # author: klassiker [mrdotx]
 # github: https://github.com/mrdotx/raspberrypi
-# date:   2021-01-15T13:53:07+0100
+# date:   2021-05-18T10:08:43+0200
 
 script=$(basename "$0")
 help="$script [-h/--help] -- script to show system status
@@ -65,11 +65,8 @@ distribution() {
         "$(uname -msr)"
     printf "firmware:     #%s\n" \
         "$(cut -d '#' -f2 /proc/version)"
-    # shellcheck disable=SC2012
     printf "shell link:   %s\n\n" \
-        "$(ls -lha /bin/sh \
-            | cut -d ' ' -f9-11 \
-        )"
+        "$(find /usr/bin/sh -type l -printf '%p -> %l\n')"
 }
 
 system() {
