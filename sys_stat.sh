@@ -3,7 +3,11 @@
 # path:   /home/klassiker/.local/share/repos/raspberrypi/sys_stat.sh
 # author: klassiker [mrdotx]
 # github: https://github.com/mrdotx/raspberrypi
-# date:   2021-05-18T10:16:15+0200
+# date:   2021-10-14T20:42:03+0200
+
+# speed up script by not using unicode
+LC_ALL=C
+LANG=C
 
 script=$(basename "$0")
 help="$script [-h/--help] -- script to show system status

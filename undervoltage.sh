@@ -3,7 +3,11 @@
 # path:   /home/klassiker/.local/share/repos/raspberrypi/undervoltage.sh
 # author: klassiker [mrdotx]
 # github: https://github.com/mrdotx/raspberrypi
-# date:   2021-01-15T13:53:19+0100
+# date:   2021-10-14T20:41:46+0200
+
+# speed up script by not using unicode
+LC_ALL=C
+LANG=C
 
 # config
 vcgencmd="/opt/vc/bin/vcgencmd"
