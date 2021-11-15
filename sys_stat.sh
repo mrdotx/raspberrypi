@@ -3,7 +3,7 @@
 # path:   /home/klassiker/.local/share/repos/raspberrypi/sys_stat.sh
 # author: klassiker [mrdotx]
 # github: https://github.com/mrdotx/raspberrypi
-# date:   2021-10-14T20:42:03+0200
+# date:   2021-11-15T08:36:17+0100
 
 # speed up script by not using unicode
 LC_ALL=C
@@ -104,7 +104,7 @@ system() {
     printf "load:         %s\n\n" \
         "$(cut -d ' ' -f1-3 /proc/loadavg)"
     printf "%s\n\n" \
-        "$(free -h)"
+        "$(free -m)"
     printf "%s\n\n" \
         "$(df -hPT /boot /)"
 }
