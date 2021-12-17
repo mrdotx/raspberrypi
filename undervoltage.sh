@@ -3,7 +3,7 @@
 # path:   /home/klassiker/.local/share/repos/raspberrypi/undervoltage.sh
 # author: klassiker [mrdotx]
 # github: https://github.com/mrdotx/raspberrypi
-# date:   2021-10-14T20:41:46+0200
+# date:   2021-12-17T18:35:47+0100
 
 # speed up script by not using unicode
 LC_ALL=C
@@ -22,26 +22,16 @@ cpu_freq="/sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq"
 # 17: arm frequency capped has occurred
 # 18: throttling has occurred
 
-# bad values
+# bad value
 # health state        vcore
-# 1000000000000000000 1.3125V
-# 1010000000000000000 1.3125V
 # 1010000000000000101 1.2V
-# 1010000000000000101 1.2V
-# 1010000000000000101 1.2V
-# 1010000000000000101 1.2V
-# 1010000000000000000 1.3125V
+
+# ambiguous value
+# health state        vcore
 # 1010000000000000000 1.3125V
 
-# good values
+# good value
 # health state        vcore
-# 0000000000000000000 1.3125V
-# 0000000000000000000 1.3125V
-# 0000000000000000000 1.3125V
-# 0000000000000000000 1.3125V
-# 0000000000000000000 1.3125V
-# 0000000000000000000 1.3125V
-# 0000000000000000000 1.3125V
 # 0000000000000000000 1.3125V
 
 i=9
@@ -68,6 +58,11 @@ while true; do
         | cut -f2 -d= \
         | sed 's/000//' \
     )
-    printf "%s %s%5s/%4s MHz   %019d %s\n" "$(date "+%H:%M:%S")" "$temp" "$sys_cs" "$real_cs" "$health" "$v_core"
+    printf "%s %s%5s/%4s MHz   %019d %s\n" "$(date "+%H:%M:%S")" \
+        "$temp" \
+        "$sys_cs" \
+        "$real_cs" \
+        "$health" \
+        "$v_core"
     sleep 5
 done
