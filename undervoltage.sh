@@ -3,7 +3,7 @@
 # path:   /home/klassiker/.local/share/repos/raspberrypi/undervoltage.sh
 # author: klassiker [mrdotx]
 # github: https://github.com/mrdotx/raspberrypi
-# date:   2021-12-17T18:35:47+0100
+# date:   2021-12-17T18:49:31+0100
 
 # speed up script by not using unicode
 LC_ALL=C
@@ -13,7 +13,7 @@ LANG=C
 vcgencmd="/opt/vc/bin/vcgencmd"
 cpu_freq="/sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq"
 
-# information for results
+# information about results
 # 0: under-voltage
 # 1: arm frequency capped
 # 2: currently throttled
