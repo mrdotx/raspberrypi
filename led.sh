@@ -3,7 +3,7 @@
 # path:   /home/klassiker/.local/share/repos/raspberrypi/led.sh
 # author: klassiker [mrdotx]
 # github: https://github.com/mrdotx/raspberrypi
-# date:   2022-01-31T21:22:31+0100
+# date:   2022-02-01T10:01:49+0100
 
 # speed up script by not using unicode
 LC_ALL=C
@@ -21,14 +21,14 @@ help="$script [-h/--help] -- script to change status leds
     $script [--green] [0/1] [--red] [0/1] [--defaults]
 
   Settings:
-    --green    = set green led on [1] or off [0]
-    --red      = set red led on [1] or off [0]
+    --green    = set green led off [0] or on [1]
+    --red      = set red led off [0] or on [1]
     --defaults = reset led settings to default values
 
   Example:
     $script --green 0
     $script --red 1
-    $script --green 1 --red 0
+    $script --red 0 --green 1
     $script --defaults"
 
 print_help() {
