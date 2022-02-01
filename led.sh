@@ -3,7 +3,7 @@
 # path:   /home/klassiker/.local/share/repos/raspberrypi/led.sh
 # author: klassiker [mrdotx]
 # github: https://github.com/mrdotx/raspberrypi
-# date:   2022-02-01T10:01:49+0100
+# date:   2022-02-01T15:10:27+0100
 
 # speed up script by not using unicode
 LC_ALL=C
@@ -18,18 +18,20 @@ led1_default="input"
 script=$(basename "$0")
 help="$script [-h/--help] -- script to change status leds
   Usage:
-    $script [--green] [0/1] [--red] [0/1] [--defaults]
+    $script [--green] [0/1] [--red] [0/1] [--defaults] [--status]
 
   Settings:
     --green    = set green led off [0] or on [1]
     --red      = set red led off [0] or on [1]
     --defaults = reset led settings to default values
+    --status   = displays status for trigger and brightness
 
   Example:
     $script --green 0
     $script --red 1
     $script --red 0 --green 1
-    $script --defaults"
+    $script --defaults
+    $script --status"
 
 print_help() {
     printf "%s\n" "$help"
@@ -65,11 +67,6 @@ while [ $# -ge 1 ]; do
         -h | --help)
             print_help 0
             ;;
-        --defaults)
-            check_root
-            set_trigger "$led0_default" "$led0_path"
-            set_trigger "$led1_default" "$led1_path"
-            ;;
         --green)
             shift
             set_led "$1" "$led0_path"
@@ -77,6 +74,19 @@ while [ $# -ge 1 ]; do
         --red)
             shift
             set_led "$1" "$led1_path"
+            ;;
+        --defaults)
+            check_root
+            set_trigger "$led0_default" "$led0_path"
+            set_trigger "$led1_default" "$led1_path"
+            ;;
+        --status)
+            printf "green led\n  trigger:    %s\n  brightness: %s\n" \
+                "$(grep -oP '\[\K[^\]]+' "$led0_path/trigger")" \
+                "$(cat "$led0_path/brightness")"
+            printf "red led:\n  trigger:    %s\n  brightness: %s\n" \
+                "$(grep -oP '\[\K[^\]]+' "$led1_path/trigger")" \
+                "$(cat "$led1_path/brightness")"
             ;;
         *)
             print_help 1
