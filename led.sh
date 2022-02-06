@@ -3,7 +3,7 @@
 # path:   /home/klassiker/.local/share/repos/raspberrypi/led.sh
 # author: klassiker [mrdotx]
 # github: https://github.com/mrdotx/raspberrypi
-# date:   2022-02-01T15:10:27+0100
+# date:   2022-02-06T20:58:24+0100
 
 # speed up script by not using unicode
 LC_ALL=C
@@ -84,7 +84,7 @@ while [ $# -ge 1 ]; do
             printf "green led\n  trigger:    %s\n  brightness: %s\n" \
                 "$(grep -oP '\[\K[^\]]+' "$led0_path/trigger")" \
                 "$(cat "$led0_path/brightness")"
-            printf "red led:\n  trigger:    %s\n  brightness: %s\n" \
+            printf "red led\n  trigger:    %s\n  brightness: %s\n" \
                 "$(grep -oP '\[\K[^\]]+' "$led1_path/trigger")" \
                 "$(cat "$led1_path/brightness")"
             ;;
