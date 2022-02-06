@@ -1,0 +1,14 @@
+# path:   /home/klassiker/.local/share/repos/raspberrypi/pi-leds.service
+# author: klassiker [mrdotx]
+# github: https://github.com/mrdotx/raspberrypi
+# date:   2022-02-06T21:11:01+0100
+
+[Unit]
+Description=set pi status leds
+
+[Service]
+Type=oneshot
+ExecStart=/home/alarm/.local/share/repos/raspberrypi/led.sh --green 0 --red 0 --status
+
+[Install]
+WantedBy=multi-user.target
