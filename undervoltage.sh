@@ -3,7 +3,7 @@
 # path:   /home/klassiker/.local/share/repos/raspberrypi/undervoltage.sh
 # author: klassiker [mrdotx]
 # github: https://github.com/mrdotx/raspberrypi
-# date:   2022-03-02T08:54:12+0100
+# date:   2022-03-02T09:04:36+0100
 
 # speed up script by not using unicode
 LC_ALL=C
@@ -12,7 +12,7 @@ LANG=C
 # config
 vcgencmd="/opt/vc/bin/vcgencmd"
 cpu_freq="/sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq"
-header="time     temp    cpu fake/real  health state        vcore"
+header="time      temp    cpu fake/real  health state         vcore"
 header_repeat=10
 measuring_interval=5
 
@@ -73,7 +73,7 @@ while true; do
     [ "$i" -eq $header_repeat ] \
         && printf "\n%s\n" "$header" \
         && i=0
-    printf "%s %s %5s/%4s MHz  %019d %s\n" \
+    printf "%s  %s %5s/%4s MHz  %019d  %s\n" \
         "$(date "+%H:%M:%S")" \
         "$(get_temp)" \
         "$(get_sys_cs)" \
