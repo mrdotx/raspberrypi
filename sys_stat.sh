@@ -3,7 +3,7 @@
 # path:   /home/klassiker/.local/share/repos/raspberrypi/sys_stat.sh
 # author: klassiker [mrdotx]
 # github: https://github.com/mrdotx/raspberrypi
-# date:   2021-11-15T08:36:17+0100
+# date:   2022-04-09T08:16:38+0200
 
 # speed up script by not using unicode
 LC_ALL=C
@@ -118,7 +118,7 @@ processes() {
 
 services() {
     service() {
-        if [ "$(systemctl is-active "$1")" = "active" ]; then
+        if systemctl -q is-active "$1"; then
             status="up  "
             runtime="$(systemctl status "$1" \
                     | awk -F '; ' 'FNR == 3 {print $NF}' \
