@@ -3,9 +3,9 @@
 # path:   /home/klassiker/.local/share/repos/raspberrypi/led.sh
 # author: klassiker [mrdotx]
 # github: https://github.com/mrdotx/raspberrypi
-# date:   2022-02-06T20:58:24+0100
+# date:   2022-04-21T10:44:41+0200
 
-# speed up script by not using unicode
+# speed up script by using posix
 LC_ALL=C
 LANG=C
 

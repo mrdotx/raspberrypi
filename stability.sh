@@ -3,9 +3,9 @@
 # path:   /home/klassiker/.local/share/repos/raspberrypi/stability.sh
 # author: klassiker [mrdotx]
 # github: https://github.com/mrdotx/raspberrypi
-# date:   2022-03-09T13:40:43+0100
+# date:   2022-04-21T10:43:59+0200
 
-# speed up script by not using unicode
+# speed up script by using posix
 LC_ALL=C
 LANG=C
 
