@@ -5,6 +5,7 @@ shell scripts for the raspberry pi
 | name                   | comment                                  |
 | :--------------------- | :--------------------------------------- |
 | led.sh                 | script to change status leds             |
+| padd_update.sh         | script to update pi-hole padd            |
 | pi-hole-adlist.service | systemd service for pi-hole              |
 | pi-hole-adlist.timer   | systemd timer for pi-hole-adlist.service |
 | pi-leds.service        | systemd service to set leds at boot      |
