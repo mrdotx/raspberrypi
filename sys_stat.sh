@@ -3,7 +3,7 @@
 # path:   /home/klassiker/.local/share/repos/raspberrypi/sys_stat.sh
 # author: klassiker [mrdotx]
 # github: https://github.com/mrdotx/raspberrypi
-# date:   2022-04-24T08:02:03+0200
+# date:   2022-07-12T11:09:16+0200
 
 # speed up script by using standard c
 LC_ALL=C
@@ -112,7 +112,7 @@ system() {
 processes() {
     printf "%s\n\n" \
         "$(ps -e -o pid,etimes,time,comm --sort -time \
-            | sed "$(($1+1))q" \
+            | head -n "$(($1 + 1))" \
         )"
 }
 
