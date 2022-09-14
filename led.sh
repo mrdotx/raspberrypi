@@ -3,15 +3,29 @@
 # path:   /home/klassiker/.local/share/repos/raspberrypi/led.sh
 # author: klassiker [mrdotx]
 # github: https://github.com/mrdotx/raspberrypi
-# date:   2022-04-24T08:01:27+0200
+# date:   2022-09-14T17:57:29+0200
 
 # speed up script by using standard c
 LC_ALL=C
 LANG=C
 
 # config
+# led0 = ACT (green), led1 = PWR (red)
 led0_path="/sys/class/leds/led0"
 led1_path="/sys/class/leds/led1"
+# cat /sys/class/leds/led0/trigger
+# none            cpu           kbd-scrolllock
+# usb-gadget      cpu0          kbd-numlock
+# usb-host        cpu1          kbd-capslock
+# rfkill-any      cpu2          kbd-kanalock
+# rfkill-none     cpu3          kbd-shiftlock
+# timer           default-on    kbd-altgrlock
+# oneshot         input         kbd-ctrllock
+# heartbeat       panic         kbd-altlock
+# backlight       actpwr        kbd-shiftllock
+# gpio            mmc0          kbd-shiftrlock
+#                               kbd-ctrlllock
+#                               kbd-ctrlrlock
 led0_default="mmc0"
 led1_default="input"
 
@@ -21,8 +35,8 @@ help="$script [-h/--help] -- script to change status leds
     $script [--green] [0/1] [--red] [0/1] [--defaults] [--status]
 
   Settings:
-    --green    = set green led off [0] or on [1]
-    --red      = set red led off [0] or on [1]
+    --green    = set green [ACT] led off [0] or on [1]
+    --red      = set red [PWR] led off [0] or on [1]
     --defaults = reset led settings to default values
     --status   = displays status for trigger and brightness
 
