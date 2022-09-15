@@ -3,7 +3,7 @@
 # path:   /home/klassiker/.local/share/repos/raspberrypi/led.sh
 # author: klassiker [mrdotx]
 # github: https://github.com/mrdotx/raspberrypi
-# date:   2022-09-14T17:57:29+0200
+# date:   2022-09-15T08:42:56+0200
 
 # speed up script by using standard c
 LC_ALL=C
@@ -32,18 +32,18 @@ led1_default="input"
 script=$(basename "$0")
 help="$script [-h/--help] -- script to change status leds
   Usage:
-    $script [--green] [0/1] [--red] [0/1] [--defaults] [--status]
+    $script [--act] [0/1] [--pwr] [0/1] [--defaults] [--status]
 
   Settings:
-    --green    = set green [ACT] led off [0] or on [1]
-    --red      = set red [PWR] led off [0] or on [1]
+    --act      = set activity [green] led off [0] or on [1]
+    --pwr      = set power [red] led off [0] or on [1]
     --defaults = reset led settings to default values
-    --status   = displays status for trigger and brightness
+    --status   = displays status for brightness and trigger
 
   Example:
-    $script --green 0
-    $script --red 1
-    $script --red 0 --green 1
+    $script --act 0
+    $script --pwr 1
+    $script --pwr 0 --act 1
     $script --defaults
     $script --status"
 
@@ -64,7 +64,6 @@ set_trigger() {
 }
 
 set_led() {
-    check_root
     set_trigger "none" "$2"
     if [ "$1" = 0 ] || [ "$1" = 1 ]; then
         printf "%s\n" "$1" > "$2/brightness"
@@ -81,11 +80,13 @@ while [ $# -ge 1 ]; do
         -h | --help)
             print_help 0
             ;;
-        --green)
+        --act)
+            check_root
             shift
             set_led "$1" "$led0_path"
             ;;
-        --red)
+        --pwr)
+            check_root
             shift
             set_led "$1" "$led1_path"
             ;;
@@ -95,12 +96,12 @@ while [ $# -ge 1 ]; do
             set_trigger "$led1_default" "$led1_path"
             ;;
         --status)
-            printf "green led\n  trigger:    %s\n  brightness: %s\n" \
-                "$(grep -oP '\[\K[^\]]+' "$led0_path/trigger")" \
-                "$(cat "$led0_path/brightness")"
-            printf "red led\n  trigger:    %s\n  brightness: %s\n" \
-                "$(grep -oP '\[\K[^\]]+' "$led1_path/trigger")" \
-                "$(cat "$led1_path/brightness")"
+            printf "setting ACT LED to brightness %s with trigger %s\n" \
+                "$(cat "$led0_path/brightness")" \
+                "$(grep -oP '\[\K[^\]]+' "$led0_path/trigger")"
+            printf "setting PWR LED to brightness %s with trigger %s\n" \
+                "$(cat "$led1_path/brightness")" \
+                "$(grep -oP '\[\K[^\]]+' "$led1_path/trigger")"
             ;;
         *)
             print_help 1
