@@ -3,7 +3,7 @@
 # path:   /home/klassiker/.local/share/repos/raspberrypi/sys_stat.sh
 # author: klassiker [mrdotx]
 # github: https://github.com/mrdotx/raspberrypi
-# date:   2022-07-12T11:09:16+0200
+# date:   2023-05-25T11:35:12+0200
 
 # speed up script by using standard c
 LC_ALL=C
@@ -217,7 +217,7 @@ footer() {
     && top=5 \
     && printf "[Top %d Processes]\n" "$top" \
     && line \
-    && processes $top
+    && processes "$top"
 [ -z "${option##*m*}" ] \
     && printf "[Services]\n" \
     && line \
