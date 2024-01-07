@@ -3,7 +3,7 @@
 # path:   /home/klassiker/.local/share/repos/raspberrypi/sys_stat.sh
 # author: klassiker [mrdotx]
 # github: https://github.com/mrdotx/raspberrypi
-# date:   2023-05-25T11:35:12+0200
+# date:   2024-01-06T10:29:07+0100
 
 # speed up script by using standard c
 LC_ALL=C
@@ -58,7 +58,7 @@ line() {
 
 header() {
     printf "[%s] - %s\n" \
-        "$(hostname)" \
+        "$(uname -n)" \
         "$(date +"%c")"
 }
 
@@ -196,7 +196,7 @@ updates() {
 
 footer() {
     printf "[%s] - %s\n" \
-        "$(hostname)" \
+        "$(uname -n)" \
         "$(date +"%c")"
 }
 
