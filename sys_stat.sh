@@ -3,7 +3,7 @@
 # path:   /home/klassiker/.local/share/repos/raspberrypi/sys_stat.sh
 # author: klassiker [mrdotx]
 # github: https://github.com/mrdotx/raspberrypi
-# date:   2024-01-06T10:29:07+0100
+# date:   2024-03-24T09:56:28+0100
 
 # speed up script by using standard c
 LC_ALL=C
@@ -190,7 +190,7 @@ failures() {
 
 updates() {
     printf "%s\n%s\n\n" \
-        "$(checkupdates)" \
+        "$(checkupdates --nocolor)" \
         "$(paru -Qua)"
 }
 
