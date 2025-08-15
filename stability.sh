@@ -2,8 +2,8 @@
 
 # path:   /home/klassiker/.local/share/repos/raspberrypi/stability.sh
 # author: klassiker [mrdotx]
-# github: https://github.com/mrdotx/raspberrypi
-# date:   2025-04-02T06:35:46+0200
+# url:    https://github.com/mrdotx/raspberrypi
+# date:   2025-08-15T03:37:48+0200
 
 vcgencmd="/opt/vc/bin/vcgencmd"
 cores=$(($(nproc --all) - 1))

@@ -2,8 +2,8 @@
 
 # path:   /home/klassiker/.local/share/repos/raspberrypi/undervoltage.sh
 # author: klassiker [mrdotx]
-# github: https://github.com/mrdotx/raspberrypi
-# date:   2022-04-24T08:02:13+0200
+# url:    https://github.com/mrdotx/raspberrypi
+# date:   2025-08-15T03:37:57+0200
 
 # speed up script by using standard c
 LC_ALL=C
