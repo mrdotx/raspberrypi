@@ -3,7 +3,7 @@
 # path:   /home/klassiker/.local/share/repos/raspberrypi/stability.sh
 # author: klassiker [mrdotx]
 # url:    https://github.com/mrdotx/raspberrypi
-# date:   2026-02-17T05:58:20+0100
+# date:   2026-03-31T05:35:29+0200
 
 vcgencmd="/opt/vc/bin/vcgencmd"
 cores=$(($(nproc --all) - 1))
@@ -16,7 +16,7 @@ LANG=C
 # depending on configuration requirements
 auth="${EXEC_AS_USER:-sudo}"
 
-# color variables for interactive shell
+# color variables for the interactive shell
 tty -s \
     && reset="\033[0m" \
     && bold="\033[1m" \
