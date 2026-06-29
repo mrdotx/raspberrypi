@@ -1,13 +1,12 @@
 #!/bin/sh
 
-# path:   /home/klassiker/.local/share/repos/raspberrypi/led.sh
+# path:   /home/klassiker/Projects/repos/raspberrypi/led.sh
 # author: klassiker [mrdotx]
 # url:    https://github.com/mrdotx/raspberrypi
-# date:   2025-08-15T03:37:42+0200
+# date:   2026-06-29T02:58:46+0200
 
-# speed up script by using standard c
-LC_ALL=C
-LANG=C
+# use standard C locale to avoid locale-specific issues and improve performance
+export LC_ALL=C LANG=C
 
 # config
 # led0 = ACT (green), led1 = PWR (red)

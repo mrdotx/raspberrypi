@@ -1,13 +1,12 @@
 #!/bin/sh
 
-# path:   /home/klassiker/.local/share/repos/raspberrypi/sys_stat.sh
+# path:   /home/klassiker/Projects/repos/raspberrypi/sys_stat.sh
 # author: klassiker [mrdotx]
 # url:    https://github.com/mrdotx/raspberrypi
-# date:   2025-08-15T03:37:52+0200
+# date:   2026-06-29T02:58:59+0200
 
-# speed up script by using standard c
-LC_ALL=C
-LANG=C
+# use standard C locale to avoid locale-specific issues and improve performance
+export LC_ALL=C LANG=C
 
 script=$(basename "$0")
 help="$script [-h/--help] -- script to show system status

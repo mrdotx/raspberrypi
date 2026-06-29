@@ -1,13 +1,12 @@
 #!/bin/sh
 
-# path:   /home/klassiker/.local/share/repos/raspberrypi/undervoltage.sh
+# path:   /home/klassiker/Projects/repos/raspberrypi/undervoltage.sh
 # author: klassiker [mrdotx]
 # url:    https://github.com/mrdotx/raspberrypi
-# date:   2025-08-15T03:37:57+0200
+# date:   2026-06-29T02:59:08+0200
 
-# speed up script by using standard c
-LC_ALL=C
-LANG=C
+# use standard C locale to avoid locale-specific issues and improve performance
+export LC_ALL=C LANG=C
 
 # config
 vcgencmd="/opt/vc/bin/vcgencmd"

@@ -1,20 +1,20 @@
 #!/bin/sh
 
-# path:   /home/klassiker/.local/share/repos/raspberrypi/stability.sh
+# path:   /home/klassiker/Projects/repos/raspberrypi/stability.sh
 # author: klassiker [mrdotx]
 # url:    https://github.com/mrdotx/raspberrypi
-# date:   2026-03-31T05:35:29+0200
+# date:   2026-06-29T02:58:52+0200
 
-vcgencmd="/opt/vc/bin/vcgencmd"
-cores=$(($(nproc --all) - 1))
-
-# speed up script by using standard c
-LC_ALL=C
-LANG=C
+# use standard C locale to avoid locale-specific issues and improve performance
+export LC_ALL=C LANG=C
 
 # auth can be something like sudo -A, doas -- or nothing,
 # depending on configuration requirements
 auth="${EXEC_AS_USER:-sudo}"
+
+# config
+vcgencmd="/opt/vc/bin/vcgencmd"
+cores=$(($(nproc --all) - 1))
 
 # color variables for the interactive shell
 tty -s \
